@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Happy 17 🤍</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+    body{height:100vh;overflow:hidden;}
+
+    /* COVER */
+    #cover{
+      position:fixed;inset:0;
+      background:linear-gradient(180deg,#ffe5d0,#fff6ec);
+      display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;
+      z-index:10;transition:opacity 1s ease;
+    }
+    #cover h1{font-size:2rem;color:#7a4a2e;margin-bottom:10px;}
+    #cover p{color:#9c6b4e;margin-bottom:25px;}
+    .bear{width:220px;animation:float 3s ease-in-out infinite;transition:opacity 1s ease,transform 1s ease;}
+    @keyframes float{0%{transform:translateY(0);}50%{transform:translateY(-10px);}100%{transform:translateY(0);}}
+    .tap-heart{
+      margin-top:20px;background:#ff6b6b;color:white;padding:14px 30px;border-radius:40px;cursor:pointer;
+      animation:pulse 1.3s infinite;box-shadow:0 8px 20px rgba(255,107,107,.4);
+    }
+    @keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.08);}100%{transform:scale(1);}}
+
+    /* CONTENT */
+    #content{
+      background:linear-gradient(#87ceeb,#e0f6ff);height:100vh;padding:40px 20px;text-align:center;
+      opacity:0;transition:opacity 1.5s ease;color:#2c3e50;position:relative;
+    }
+    h2{margin-bottom:5px;}
+    .name{font-size:1.1rem;margin-bottom:25px;color:#34495e;}
+    .typing{font-size:1.1rem;line-height:1.8;min-height:140px;white-space:pre-line;}
+
+    /* AWAN */
+    .cloud{position:absolute;top:20%;width:100px;opacity:.6;animation:moveCloud 70s linear infinite;}
+    .cloud:nth-child(2){top:35%;animation-duration:90s;}
+    @keyframes moveCloud{from{left:-150px;}to{left:110%;}}
+
+    /* LOVE */
+    .hearts{position:fixed;inset:0;pointer-events:none;}
+    .heart-fall{position:absolute;color:#ff6b81;font-size:16px;animation:fall linear forwards;opacity:.8;}
+    @keyframes fall{from{transform:translateY(-10vh);opacity:1;}to{transform:translateY(110vh);opacity:0;}}
+
+    /* SPARKLE */
+    .sparkle{position:absolute;width:6px;height:6px;background:white;border-radius:50%;animation:sparkle 1.5s ease-out forwards;}
+    @keyframes sparkle{from{transform:scale(0);opacity:1;}to{transform:scale(2);opacity:0;}}
+  </style>
+</head>
+<body>
+
+  <!-- AWAN -->
+  <img src="https://th.bing.com/th/id/OIP.JC4AVqEIzkpMMMhKPcbipAHaHa?w=206&h=186&c=7&r=0&o=7&pid=1.7&rm=3" class="cloud">
+  <img src="https://th.bing.com/th/id/OIP.JC4AVqEIzkpMMMhKPcbipAHaHa?w=206&h=186&c=7&r=0&o=7&pid=1.7&rm=3" class="cloud">
+
+  <div class="hearts"></div>
+
+  <!-- COVER -->
+  <div id="cover">
+    <h1>Untuk adek sayangg 🤍</h1>
+    <p>ada sesuatu buat kamu</p>
+    <img src="https://i.pinimg.com/originals/b0/9a/06/b09a0682c2cd4d291bf195d52870affd.gif" class="bear" alt="bear">
+    <div class="tap-heart" onclick="openGift()">tap hatinya 💖</div>
+  </div>
+
+  <!-- CONTENT -->
+  <div id="content">
+    <h2>Happy 17 🎂</h2>
+    <div class="name">adek sayangg 🤍</div>
+    <div id="text" class="typing"></div>
+  </div>
+
+  <!-- MUSIC -->
+  <audio id="music" loop>
+    <source src="https://raw.githubusercontent.com/username/happy17/main/lagu.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const message = `Semoga di umur yang baru ini,
+kamu selalu dikelilingi
+hal-hal yang hangat dan tulus 🤍
+
+pelan-pelan aja,
+nggak perlu ngebut,
+kamu tetap berarti.`;
+
+    let index=0;
+    function typeText(){
+      if(index<message.length){
+        document.getElementById("text").innerHTML+=message.charAt(index);
+        index++;
+        setTimeout(typeText,45);
+      }
+    }
+
+    function createHeart(){
+      const heart=document.createElement("div");
+      heart.className="heart-fall";
+      heart.innerText="❤";
+      heart.style.left=Math.random()*100+"vw";
+      heart.style.animationDuration=(4+Math.random()*3)+"s";
+      document.querySelector(".hearts").appendChild(heart);
+      setTimeout(()=>heart.remove(),7000);
+    }
+
+    function createSparkle(){
+      const s=document.createElement("div");
+      s.className="sparkle";
+      s.style.left=Math.random()*100+"vw";
+      s.style.top=Math.random()*100+"vh";
+      document.body.appendChild(s);
+      setTimeout(()=>s.remove(),1500);
+    }
+
+    function openGift(){
+      const cover=document.getElementById("cover");
+      const content=document.getElementById("content");
+      const music=document.getElementById("music");
+      const bear=document.querySelector(".bear");
+
+      // bear fade
+      bear.style.opacity=0;
+      bear.style.transform="scale(0.9)";
+
+      // heart & sparkle
+      setInterval(createHeart,600);
+      setInterval(createSparkle,900);
+
+      // cover fade
+      cover.style.opacity=0;
+      setTimeout(()=>{
+        cover.style.display="none";
+        content.style.opacity=1;
+        typeText();
+      },1000);
+
+      // PLAY MUSIC DARI AWAL (loop)
+      music.volume=0.8;
+      music.play().catch(err=>{
+        console.log("Audio error:", err);
+        alert("Klik love lagi kalau musik belum nyala 😅");
+      });
+    }
+  </script>
+
+</body>
+</html>
